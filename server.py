@@ -27,6 +27,7 @@ class Server():
 
     @Pyro4.expose
     def getUsers(self):
+        print(self.current_users)
         return json.dumps({"Success": self.current_users})
 
     
@@ -61,7 +62,6 @@ class Server():
             if order_id not in self.user_order[username]:
                 return json.dumps({"Error": "invalid order ID"})
             self.orders[order_id] = [items, post_code]
-            self.user_order[username] += [order_id]
             self.updateReplicas()
             return json.dumps({"Success": "Order {} has been changed".format(order_id)})
         except:

@@ -64,7 +64,7 @@ class FrontEnd():
                 return json.dumps({"Error": "Request Timed Out!"})
         else:
             print("Retrying connection...")
-            self.addOrder(username, items, post_code)
+            return self.addOrder(username, items, post_code)
 
     # transfer authenticateUser request to primary server and send response back to client
     @Pyro4.expose
@@ -92,7 +92,7 @@ class FrontEnd():
                 return json.dumps({"Error": "Request Timed Out!"})
         else:
             print("Retrying connection...")
-            self.createUser(self, username, password)
+            return self.createUser(username, password)
 
     # transfer cancelOrder request to primary server and send response back to client   
     @Pyro4.expose
@@ -106,7 +106,7 @@ class FrontEnd():
                 return json.dumps({"Error": "Request Timed Out!"})
         else:
             print("Retrying connection...")
-            self.cancelOrder(username, order_id)
+            return self.cancelOrder(username, order_id)
     # transfer changeOrder request to primary server and send response back to client
     @Pyro4.expose
     def changeOrder(self, username, order_id, items, post_code):
@@ -119,7 +119,7 @@ class FrontEnd():
                 return json.dumps({"Error": "Request Timed Out!"})
         else:
             print("Retrying connection...")
-            self.changeOrder(username, order_id, post_code)
+            return self.changeOrder(username, order_id, post_code)
 
     # transfer getUsers request to primary server and send response back to client
     @Pyro4.expose
@@ -133,7 +133,7 @@ class FrontEnd():
                 return json.dumps({"Error": "Request Timed Out!"})
         else:
             print("Retrying connection...")
-            self.getUsers()
+            return self.getUsers()
 
     # transfer getOrders request to primary server and send response back to client
     @Pyro4.expose

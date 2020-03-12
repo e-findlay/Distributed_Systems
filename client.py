@@ -147,6 +147,7 @@ class Client():
         try:
             response = self.front_end_server.changeOrder(username, order_id, items, post_code)
             response = json.loads(response)
+            print(response)
             if "Error" in response.keys():
                 print("Error: ", response["Error"])
                 return
@@ -227,11 +228,12 @@ class Client():
     def getUsers(self):
         try:
             response = self.front_end_server.getUsers()
+            print(response)
             response = json.loads(response)
             if "Error" in response.keys():
                 print("Error: ", response["Error"])
                 return
-            # print logge in users on console
+            # print logged in users on console
             for user in response["Success"]:
                 print("{}".format(user))
         except Pyro4.errors.TimeoutError:
