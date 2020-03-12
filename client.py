@@ -147,11 +147,10 @@ class Client():
         try:
             response = self.front_end_server.changeOrder(username, order_id, items, post_code)
             response = json.loads(response)
-            print(response)
             if "Error" in response.keys():
                 print("Error: ", response["Error"])
                 return
-            print("Your order has been changed!")
+            print("Order {} has been changed!".format(order_id))
         except Pyro4.errors.TimeoutError:
             print("Error: Request Timed Out!")
     
@@ -161,6 +160,7 @@ class Client():
             response = json.loads(response)
             if "Error" in response.keys():
                 print(response["Error"])
+                return
             # dsiplay menu on console
             for idx, item in enumerate(response["Success"]):
                 print("{}. {}".format(idx+1, item))
@@ -228,7 +228,6 @@ class Client():
     def getUsers(self):
         try:
             response = self.front_end_server.getUsers()
-            print(response)
             response = json.loads(response)
             if "Error" in response.keys():
                 print("Error: ", response["Error"])
