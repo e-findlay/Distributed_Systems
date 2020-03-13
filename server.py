@@ -27,7 +27,6 @@ class Server():
 
     @Pyro4.expose
     def getUsers(self):
-        print(self.current_users)
         return json.dumps({"Success": self.current_users})
 
     
@@ -43,6 +42,7 @@ class Server():
             order_id = self.o_id
             self.o_id += 1
             self.user_order[username] += [order_id]
+            print("HI")
             self.orders[order_id] = [items, post_code]
             self.updateReplicas()
             return json.dumps({"Success": "Your Order was Successfully Completed"})
@@ -111,6 +111,9 @@ class Server():
             if username in self.users.keys():
                 if self.users[username] == password:
                     # log user into server
+                    if username in self.current_users:
+                        # check another client not already logged in as user
+                        return json.dumps({"Error":"Account is already in use"})
                     self.current_users.append(username)
                     self.updateReplicas()
                     return json.dumps({"Success": "You are logged in!"})
@@ -155,16 +158,25 @@ class Server():
         replicas = self.front_end.getReplicas(self)
         if replicas:
             for replica in replicas:
-                replica.setState(self.users, self.orders, self.current_users, self.user_order, self.o_id)
+                updated = replica.setState(self.users, self.orders, self.current_users, self.user_order, self.o_id)
+                updated = json.loads(updated)
+                if "Error" not in updated.keys():
+                    print(updated["Success"])
+                else:
+                    print(updated["Error"])
 
     # update data of backup replica to data of primary server         
     @Pyro4.expose
     def setState(self, users, orders, current_users, user_order, order_id):
-        self.users = users
-        self.orders = orders
-        self.current_users = current_users
-        self.user_order = user_order
-        self.o_id = order_id
+        try:
+            self.users = users
+            self.orders = orders
+            self.current_users = current_users
+            self.user_order = user_order
+            self.o_id = order_id
+            return json.dumps({"Success": "State Updated"})
+        except:
+            return json.dumps({"Error": "State could not be updated!"})
 
 
     # sets status of server to online or offline

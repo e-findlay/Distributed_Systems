@@ -42,7 +42,6 @@ class Client():
             print("Enter 5 to see other online users")
             print("Enter 6 to logout")
             user_input = input("Enter your Choice:\n")
-            print(user_input)
             # Check user input is valid
             while user_input not in ['1','2','3', '4','5', '6']:
                 user_input = input("Invalid choice! Please try again:\n")
@@ -60,16 +59,14 @@ class Client():
                 print('0. Submit Order')
                 while user_input !='0':
                     user_input = input("Select your food:\n")
-                    print(user_input)
                     for i in range(1, num_items+1):
                         if str(i) == user_input:
                             order_items += [items[i-1]]
                             ordered = True
                 if ordered:
-                    print(order_items)
                     self.submitOrder(self.username, order_items, post_code)
                 else:
-                    print('You did not order any items!')
+                    print('You did not order any items!\n')
             # Change an existing order
             elif user_input == '3':
                 retrieved = self.retrieveOrders(self.username)
@@ -128,7 +125,7 @@ class Client():
             if "Error" in response.keys():
                 print("Error: ", response["Error"])
                 return
-            print("Order Confirmed!")
+            print("Your Order has been Sent!\n")
         except Pyro4.errors.TimeoutError:
             print("Error: Request Timed Out!")
 

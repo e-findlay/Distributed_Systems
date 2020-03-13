@@ -185,6 +185,7 @@ def main():
         daemon = Pyro4.Daemon()
         uri = daemon.register(front_end)
         name_server.register("Front_End_Server", uri)
+        print("Front End Server Online")
         daemon.requestLoop()
     except Pyro4.errors.NamingError:
         print("Error: Could not connect to Name Server")
