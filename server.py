@@ -13,12 +13,13 @@ class Server():
 
     def __init__(self):
         self.status = 'active'
-        self.server_name = 'server' + str(uuid.uuid4())
+        # generate unique name for server
+        self.server_name = str(uuid.uuid4())
         self.menu_items = ['Pizza', 'Burger', 'Curry', 'Fish and Chips',
                            'Coke', 'Lemonade', 'Ice Cream', 'Lasagne']
         self.users = {'Admin': 'test'}
         self.current_users = []
-        self.orders = {1: [['Pizza', 'Burger'], 'DH1 4AB']}
+        self.orders = {1: [['Pizza', 'Burger'], 'DH14AB']}
         self.user_order = defaultdict(list)
         self.user_order['Admin'] += [1]
         self.front_end = None
